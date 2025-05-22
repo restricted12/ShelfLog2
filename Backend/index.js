@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('./config/db'); // Your custom DB connection file
-const bookRoutes = require('../Backend/routes/Book.route'); // ✅ Import your book routes
+const bookRoutes = require('./routes/Book.route'); // ✅ Import your book routes
 
 // Load .env variables
 dotenv.config();
