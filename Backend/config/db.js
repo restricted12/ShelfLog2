@@ -1,61 +1,26 @@
-
 const mongoose = require('mongoose');
-require('dotenv').config(); // this loads the .env file
 
-const mongoURL = process.env.MONGO_URL;
+const mongoURL = process.env.MONGO_URL || 'mongodb+srv://ezepayooner:32354505@cluster0.dwv8uae.mongodb.net/shelflog?retryWrites=true&w=majority';
 
-// const mongoURL = 'mongodb+srv://ezepayooner:32354505@cluster0.dwv8uae.mongodb.net/shelflog?retryWrites=true&w=majority';
-
-// Connection options
 const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 15000, // Increased to 15 seconds
-    socketTimeoutMS: 60000,         // Increased to 60 seconds
-    maxPoolSize: 10,
-    minPoolSize: 2,                 // Ensure minimum connections
-    bufferCommands: false,          // Explicitly disable buffering
-    autoIndex: false,
-    connectTimeoutMS: 15000,        // Match server selection timeout
-    heartbeatFrequencyMS: 10000,    // Check connection every 10 seconds
-    retryWrites: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 15000,
+  socketTimeoutMS: 60000,
+  maxPoolSize: 10,
+  minPoolSize: 2,
+  bufferCommands: false,
+  autoIndex: false,
+  connectTimeoutMS: 15000,
+  heartbeatFrequencyMS: 10000,
+  retryWrites: true,
 };
 
-// Initialize connection with retry logic
-const connectWithRetry = () => {
-    mongoose.connect(mongoURL, options)
-        .then(() => {
-            console.log('MongoDB connected successfully at', new Date().toLocaleString('en-US', { timeZone: 'Africa/Nairobi' }));
-        })
-        .catch((error) => {
-            console.error('MongoDB initial connection failed:', error.message);
-            setTimeout(connectWithRetry, 5000); // Retry every 5 seconds
-        });
-};
-
-connectWithRetry();
+mongoose.connect(mongoURL, options);
 
 const db = mongoose.connection;
-
-db.on('error', (error) => {
-    console.error('MongoDB connection error:', error.message);
-});
-
-db.on('disconnected', () => {
-    console.warn('MongoDB disconnected. Attempting to reconnect...');
-    connectWithRetry();
-});
-
-db.once('open', () => {
-    console.log('MongoDB connection is open at', new Date().toLocaleString('en-US', { timeZone: 'Africa/Nairobi' }));
-});
-
-// Handle process termination
-process.on('SIGINT', () => {
-    db.close(() => {
-        console.log('MongoDB connection closed due to app termination');
-        process.exit(0);
-    });
-});
+db.on('error', (error) => console.error('MongoDB connection error:', error.message));
+db.on('disconnected', () => console.warn('MongoDB disconnected. Attempting to reconnect...'));
+db.once('open', () => console.log('MongoDB connection is open at', new Date().toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })));
 
 module.exports = mongoose;

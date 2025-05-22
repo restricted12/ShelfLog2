@@ -4,12 +4,11 @@
   "description": "Backend for ShelfLog project",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "author": "Ezedin",
+  "start": "node index.js",
+  "vercel-build": "npm install"
+},
+  "author": "",
   "license": "ISC",
-  
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
