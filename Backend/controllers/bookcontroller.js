@@ -30,7 +30,7 @@ exports.addBook = async (req, res) => {
 
 exports.editBook = async (req, res) => {
     const { id } = req.params;
-    const allowedUpdates = ['title', 'author', 'category', 'status', 'notes'];
+    const allowedUpdates = ['title', 'author', 'category', 'status','notes'];
     const updates = {};
 
     for (const key of allowedUpdates) {

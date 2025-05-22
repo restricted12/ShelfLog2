@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from '../api/axios'; // your axios instance
+import axios from '../api/axios';
 
 export const BookContext = createContext();
 
 export const BookProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null); // for getBookById
+  const [selectedBook, setSelectedBook] = useState(null);
   const [filterStatus, setFilterStatus] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterTitle, setFilterTitle] = useState('');
@@ -17,7 +17,7 @@ export const BookProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get('/api/all-unfiltered'); // or whatever route you use
+      const res = await axios.get('/api/all-unfiltered');
       setBooks(res.data.books);
     } catch (err) {
       setError('Failed to fetch all books');
@@ -33,7 +33,6 @@ export const BookProvider = ({ children }) => {
     setError(null);
     try {
       const query = new URLSearchParams();
-
       if (filterStatus) query.append('status', filterStatus);
       if (filterCategory) query.append('category', filterCategory);
       if (filterTitle) query.append('title', filterTitle);
@@ -53,7 +52,7 @@ export const BookProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`/api/book/${id}`);
+      const res = await axios.get(`/api/${id}`);
       setSelectedBook(res.data);
     } catch (err) {
       setError('Failed to fetch book');
@@ -78,21 +77,11 @@ export const BookProvider = ({ children }) => {
     }
   };
 
-  // Update book
-  const updateBook = async (id, updatedData) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await axios.put(`/api/edit/${id}`, updatedData);
-      setBooks((prev) =>
-        prev.map((book) => (book._id === id ? res.data : book))
-      );
-    } catch (err) {
-      setError('Failed to update book');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  // Update book in state (no API call, just update state)
+  const updateBook = (id, updatedData) => {
+    setBooks((prev) =>
+      prev.map((book) => (book._id === id ? { ...book, ...updatedData } : book))
+    );
   };
 
   // Delete book
