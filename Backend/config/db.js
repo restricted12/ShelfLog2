@@ -1,7 +1,10 @@
 
 const mongoose = require('mongoose');
+require('dotenv').config(); // this loads the .env file
 
-const mongoURL = 'mongodb+srv://ezepayooner:32354505@cluster0.dwv8uae.mongodb.net/shelflog?retryWrites=true&w=majority';
+const mongoURL = process.env.MONGO_URL;
+
+// const mongoURL = 'mongodb+srv://ezepayooner:32354505@cluster0.dwv8uae.mongodb.net/shelflog?retryWrites=true&w=majority';
 
 // Connection options
 const options = {
