@@ -1,4 +1,14 @@
 {
+  "name": "shelflog2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
