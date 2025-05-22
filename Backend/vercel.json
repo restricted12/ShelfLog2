@@ -1,8 +1,8 @@
 {
     "rewrites":[{"source":"/(.*)",
-    "destination":"./api"},
+    "destination":"./"},
     {"source":"/(.*)",
     "destination":"./index.js"}],
-    "functions":{"./api/(.*)":{"maxDuration":10,"memory":128},
+    "functions":{"./(.*)":{"maxDuration":10,"memory":128},
     "./index.js":{"maxDuration":10,
     "memory":128}}}
